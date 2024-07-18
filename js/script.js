@@ -12,6 +12,7 @@ For assistance:
 document.addEventListener('DOMContentLoaded', () => {
    const studentsPerPage = 9;
    const studentList = document.querySelector('.student-list');
+   const paginationList = document.querySelector('.link-list');
    const header = document.querySelector('.header');
    const searchBarHtml = `
       <label for="search" class="student-search">
@@ -37,17 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < list.length; i++) {
          if (i >= startIndex && i <= endIndex) {
             const html = `
-            <li class="student-item cf">
-               <div class="student-details">
-                  <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
-                  <h3>${list[i].name.first} ${list[i].name.last}</h3>
-                  <span class="email">${list[i].email}</span>
-               </div>
-               <div class="joined-details">
-                  <span class="date">Joined ${list[i].registered.date}</span>
-               </div>
-            </li>
-         `;
+               <li class="student-item cf">
+                  <div class="student-details">
+                     <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
+                     <h3>${list[i].name.first} ${list[i].name.last}</h3>
+                     <span class="email">${list[i].email}</span>
+                  </div>
+                  <div class="joined-details">
+                     <span class="date">Joined ${list[i].registered.date}</span>
+                  </div>
+               </li>
+            `;
             studentList.insertAdjacentHTML('beforeend', html);
          };
       }
@@ -59,19 +60,22 @@ document.addEventListener('DOMContentLoaded', () => {
     * @param {Array} list - The list of student objects to paginate.
     */
    const addPagination = (list) => {
-      const numberOfButtons = Math.ceil(Math.floor(list.length / studentsPerPage));
-      const paginationList = document.querySelector('.link-list');
+      const numberOfButtons = Math.ceil(list.length / studentsPerPage);
       paginationList.innerHTML = '';
 
       for (let i = 1; i <= numberOfButtons; i++) {
          const buttonHtml = `
-         <li>
-            <button type="button">${i}</button>
-         </li>
-      `;
+            <li>
+               <button type="button">${i}</button>
+            </li>
+         `;
          paginationList.insertAdjacentHTML('beforeend', buttonHtml);
-         paginationList.querySelector('button').classList.add('active');
+         // paginationList.querySelector('button').classList.add('active');
       };
+
+      if (paginationList.querySelector('button')) {
+         paginationList.querySelector('button').classList.add('active');
+      }
 
       paginationList.addEventListener('click', (e) => {
          const activeButton = paginationList.querySelector('.active');
@@ -107,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             studentList.innerHTML = noResultsFoundHtml;
          }
       }
+      paginationList.style.display = filteredList.length === 0 ? 'none' : '';
    });
 
    // Call functions
