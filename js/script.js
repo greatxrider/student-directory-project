@@ -81,11 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
          const activeButton = paginationList.querySelector('.active');
          const buttonClicked = e.target.closest('button');
 
-         if (buttonClicked.tagName.toLowerCase() === 'button') {
-            activeButton.classList.remove('active');
-            buttonClicked.classList.add('active');
+         if (activeButton && buttonClicked) {
+            activeButton.classList.remove("active");
+         }
+
+         if (buttonClicked) {
+            buttonClicked.classList.add("active");
             showPage(list, buttonClicked.innerHTML);
-         };
+         }
       });
    };
 
